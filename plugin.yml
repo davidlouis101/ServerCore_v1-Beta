@@ -42,6 +42,3 @@ commands:
   info:
     description: §e[Core]§4info
     permission: core.info
-  moneydrop:
-    description: §e[Core]§4moneydrop
-    permission: moneydrop.core 
