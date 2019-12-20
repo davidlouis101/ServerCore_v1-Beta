@@ -45,9 +45,6 @@
 		    $this->getServer()->getPluginManager()->getPlugin("EconomyAPI")->addMoney($player, $zahl);
 		    $player->sendMessage("§eCore§b >>§4Du hast gerade duch rin moneydrop §e" .$zahl. "$§ 4erhalten"); 
                     return true;
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                    return true;
                 }
             }
             return true;
