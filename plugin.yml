@@ -1,0 +1,44 @@
+name: ServerCore
+main: Aleondev\Main
+version: 1.0.0
+api: 
+- 3.0.0
+- 4.0.0
+load: POSTWORLD
+author: Aleondev
+description: "core by Aleondev"
+
+commands:
+  tag:
+    description: §e[Core]§4Mach Tag
+    permission: tag.core
+  core:
+    description: §e[Core]§4Hilfe
+    permission: core.core
+  nacht:
+    description: §e[Core]§4Du Hast Nacht Gemacht
+    permission: nacht.core
+  gm0:
+    description: §e[Core]§4Gehe In Den gm0
+    permission: gm0.core
+  gm1:
+    description: §e[Core]§4Gehe In Den gm1
+    permission: gm1.core
+  gm2:
+    description: §e[Core]§4Gehe In Den gm2
+    permission: gm3.core
+  gm3:
+    description: §e[Core]§4Gehe In Den gm3
+    permission: gm3.core
+  food:
+    description: §e[Core]§4Food
+    permission: food.core  
+  heal:
+    description: §e[Core]§4Heal
+    permission: heal.core
+  fly:
+    description: §e[Core]§4fly
+    permission: heal.core
+  info:
+    description: §e[Core]§4info
+    permission: core.info  
