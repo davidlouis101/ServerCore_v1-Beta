@@ -7,7 +7,6 @@
  use pocketmine\command\Command;
  use pocketmine\command\CommandSender;
  use pocketmine\Player;
- use onebone\economyapi\EconomyAPI;
 
 
  class Main extends PluginBase implements Listener {
@@ -37,18 +36,6 @@
             }
             return true;
         }
-	if ($cmd->getName() == "moneydrop") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("moneydrop.core")) {
-                    $zahl = $args[0];
-		    foreach ($this->getServer()->getOnlinePlayers() as $player) {
-		    $this->getServer()->getPluginManager()->getPlugin("EconomyAPI")->addMoney($player, $zahl);
-		    $player->sendMessage("§eCore§b >>§4Du hast gerade duch rin moneydrop §e" .$zahl. "$§ 4erhalten"); 
-                    return true;
-                }
-            }
-            return true;
-        }    
         if ($cmd->getName() == "core") {
             if ($sender instanceof Player) {
                 if ($sender->hasPermission("core.core")) {
