@@ -6,7 +6,7 @@ api:
 - 4.0.0
 load: POSTWORLD
 author: Aleondev
-description: "core by Aleondev"
+description: "Core by Aleondev"
 
 commands:
   tag:
