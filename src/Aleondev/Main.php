@@ -134,7 +134,6 @@
                 return true;
             }
             switch(strtolower($args[0])) {
-            case "0":
             case "s":
             if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
@@ -160,8 +159,6 @@
               break;
 
               
-
-            case "1":
             case "c":
             if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
@@ -187,7 +184,7 @@
            
               break;
 
-              case "3":
+              case "spec":
               if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
@@ -212,7 +209,7 @@
            
               break;
 
-              case "2":
+              case "a":
               if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
