@@ -39,7 +39,7 @@
         if ($cmd->getName() == "core") {
             if ($sender instanceof Player) {
                 if ($sender->hasPermission("core.core")) {
-                    $sender->sendMessage("§6>>§eCore§6<<\n§4/tag\n§4/nacht\n§4gm0,1,2,3\n§4/food\n§4/heal\n§4/fly\n§6>>§eCore§6<<");
+                    $sender->sendMessage("§6>>§eCore§6<<\n§4/tag\n§4/nacht\n§4gm0,1,2,3\n§4/food\n§4/heal\n§4/fly\n§4/flyall\n§6>>§eCore§6<<");
                 } else {
                     $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
                 }
