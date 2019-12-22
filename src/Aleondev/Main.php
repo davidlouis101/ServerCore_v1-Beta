@@ -76,7 +76,7 @@
            foreach ($this->getServer()->getOnlinePlayers() as $p) {
                     $player = $sender->getName();
                     $p->setAllowFlight(true);
-                    $this->getScheduler()->scheduleRepeatingTask(new Flyall($this), 30);           
+                    $this->getScheduler()->scheduleRepeatingTask(30);           
                     $this->getServer()->broadcastMessage("§eCore§b >>§4 Fly Wurde Für Alle §aAktiviert!");
 		      $this->plugin->fsek--;
             if($this->plugin->fsek === 30) {
