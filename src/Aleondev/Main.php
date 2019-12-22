@@ -41,13 +41,22 @@
         if ($cmd->getName() == "core") {
             if ($sender instanceof Player) {
                 if ($sender->hasPermission("core.core")) {
-                    $sender->sendMessage("§6>>§eCore§6<<\n§4/tag\n§4/nacht\n§4gm0,1,2,3\n§4/food\n§4/heal\n§4/fly\n§4/flyall\n§6>>§eCore§6<<");
+                    $sender->sendMessage("§6>>§eCore§6<<\n§4/tag\n§4/nacht\n§4gm0,1,2,3\n§4/food\n§4/heal\n§4/fly\n§4/tpall\n§6>>§eCore§6<<");
                 } else {
                     $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
                 }
             }
             return true;
         }
+        if ($cmd->getName() == "fly") {
+            if ($sender instanceof Player) {
+                if ($sender->hasPermission("fly.core")) {
+                    $sender->setAllowFlight(true);
+                    $sender->sendMessage("§eCore§b >> §4Du Kannst Jetzt Fliegen");
+                }
+            }
+            return true;
+        }    
         if ($cmd->getName() == "info") {
             if ($sender instanceof Player) {
                 if ($sender->hasPermission("core.info")) {
@@ -58,35 +67,25 @@
             }
             return true;
         }
-          if(strtolower($cmd->getName()) == "fly") {
-            if($sender instanceof Player) {
-                if($this->isPlayer($sender)) {
-                    $this->removePlayer($sender);
-                    $sender->setAllowFlight(false);
-                    $sender->sendMessage("§e[Fly]§b >> §4Fly ist §cDisable");
-                    return true;
-      
-		}else{
-
-                    $this->addPlayer($sender);
-                    $sender->setAllowFlight(true);
-                    $sender->sendMessage("§e[Fly]§b >> §4Fly Ist §aEnable");
-                    return true;
-                }            
-	    }else{
-                $sender->sendMessage("§e[Fly]§b >> §4Fly Ist §cDisable");
-                return true;
-            }
-        }
-    }
-    public function addPlayer(Player $player) {
-        $this->players[$player->getName()] = $player->getName();
-    }
-    public function isPlayer(Player $player) {
-        return in_array($player->getName(), $this->players);
-    }
-    public function removePlayer(Player $player) {
-        unset($this->players[$player->getName()]);
+        if ($cmd->getName() == "tpall") {
+            if ($sender instanceof Player) {
+              if ($sender->hasPermission("tpall.core")) {
+                  foreach ($this->getServer()->getOnlinePlayers() as $player) {
+                  $x = $sender->getX();
+                  $y = $sender->getY();
+                  $z = $sender->getZ();
+                  $level = $sender->getLevel();
+                  $name = $sender->getName();
+                  $player->teleport(new Position($x, $y, $z, $level));
+         
+               } 
+                 $sender->sendMessage("§eCore §b>> §4Du hast alle zu dir Teleportiert!");
+                 $this->getServer()->broadcastMessage("§eCore §b >> §4Jeder würde von $name Teleportiert!");
+               } else {
+                 $sender->sendMessage("§eCore §4Keine Rechte Für §etpall.core!");
+              }
+               } else {
+                 $sender->sendMessage("§eCore Du kannst diesen Command nur InGame ausführen");
                 }
             }
             return true;
