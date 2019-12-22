@@ -18,8 +18,8 @@ commands:
   tpohere:
     description: §e[Core]§4Tpohere
     permission: tpohere.core
-  gm:
-    description: §e[Core]§4Gm
+  g:
+    description: §e[Core]§4G
     permission: gm.core
   fly:
     description: §e[Core]§4fly
