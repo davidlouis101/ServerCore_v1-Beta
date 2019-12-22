@@ -68,6 +68,21 @@
             }
             return true;
         }
+	if ($cmd->getName() == "flyall") {
+            if ($sender instanceof Player) {
+                if ($sender->hasPermission("flyall.core")) {
+           foreach ($this->getServer()->getOnlinePlayers() as $p) {
+                    $player = $sender->getName();
+                    $p->setAllowFlight(true);
+                    $this->getScheduler()->scheduleRepeatingTask(new Flyall($this), 30);           
+                    $this->getServer()->broadcastMessage("§eCore§b >>§4 Fly Wurde Für Alle §aAktiviert!");
+                } else {
+                    $sender->sendMessage("Du hast keine rechte für disen command");
+                    return true;
+                }
+            }
+            return true;
+        }    
         if ($cmd->getName() == "nacht") {
             if ($sender instanceof Player) {
                 if ($sender->hasPermission("nacht.core")) {
