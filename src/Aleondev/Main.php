@@ -192,8 +192,7 @@
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
                     $targetgm = $target;
-                    $player = $sender->getName();
-                    $tname = $targetgm->getName();
+                    $player = $sender->getName();                    $tname = $targetgm->getName();
                     $target->setGamemode(3);
                     $sender->sendMessage("§eCore §4Du hast §e$tname  §4Spielmodus auf §eGamemode 3 §4gesetzt! ");
                     $target->sendMessage("§e$player §4hat dein Spielmodus auf §eGamemode 3 §4gesetzt!");
@@ -250,5 +249,5 @@
 
  
    }
-   return true;
+	 
  }
