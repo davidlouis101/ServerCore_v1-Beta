@@ -8,7 +8,7 @@
  use pocketmine\command\CommandSender;
  use pocketmine\Player;
  use pocketmine\math\Vector3;
- use pocketmine\scheduler\Task;
+ use pocketmine\level\Position;
 
 
  class Main extends PluginBase implements Listener {
