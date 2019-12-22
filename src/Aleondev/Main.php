@@ -58,48 +58,39 @@
             }
             return true;
         }
-        if ($cmd->getName() == "fly") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("fly.core")) {
-                    $sender->setAllowFlight(true);
-                    $sender->sendMessage("§eCore§b >>§4 Fly Wurde §aAktiviert!");
-                } else {
-                    $sender->sendMessage("Du hast keine rechte für disen command");
+          if(strtolower($cmd->getName()) == "fly") {
+            if($sender instanceof Player) {
+                if($this->isPlayer($sender)) {
+                    $this->removePlayer($sender);
+                    $sender->setAllowFlight(false);
+                    $sender->sendMessage("§e[Fly]§b >> §4Fly ist §cDisable");
                     return true;
+      
+		}else{
+
+                    $this->addPlayer($sender);
+                    $sender->setAllowFlight(true);
+                    $sender->sendMessage("§e[Fly]§b >> §4Fly Ist §aEnable");
+                    return true;
+                }            
+	    }else{
+                $sender->sendMessage("§e[Fly]§b >> §4Fly Ist §cDisable");
+                return true;
+            }
+        }
+    }
+    public function addPlayer(Player $player) {
+        $this->players[$player->getName()] = $player->getName();
+    }
+    public function isPlayer(Player $player) {
+        return in_array($player->getName(), $this->players);
+    }
+    public function removePlayer(Player $player) {
+        unset($this->players[$player->getName()]);
                 }
             }
             return true;
         }
-	if ($cmd->getName() == "flyall") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("flyall.core")) {
-           foreach ($this->getServer()->getOnlinePlayers() as $p) {
-                    $player = $sender->getName();
-                    $p->setAllowFlight(true);
-                    $this->getScheduler()->scheduleRepeatingTask(30);           
-                    $this->getServer()->broadcastMessage("§eCore§b >>§4 Fly Wurde Für Alle §aAktiviert!");
-		      $this->plugin->fsek--;
-            if($this->plugin->fsek === 30) {
-                foreach ($this->plugin->getServer()->getOnlinePlayers() as $p) {
-                         $p->sendMessage("§eCore§c §b»§l§aFlyall wird in §c30 sekunden §adeaktiviert.");
-                         }
-            }elseif($this->plugin->fsek === 10) {
-                foreach ($this->plugin->getServer()->getOnlinePlayers() as $p) {
-                         $p->sendMessage("§eCore§c §b»§l§aFlyall wird in §c10 sekunden §adeaktiviert.");
-                         }
-            }elseif($this->plugin->fsek === 0) {
-                foreach ($this->plugin->getServer()->getOnlinePlayers() as $p) {
-                         $p->sendMessage("§eCore§c §8»§l§aFlyall wurde nun deaktiviert. \n\n§r§aDu kannst nun nicht mehr Fliegen.");
-                    if($p->getGamemode() == 0) {
-                        $p->setFlying(false);
-                        $p->setAllowFlight(flase);
-                } else {
-                    $sender->sendMessage("Du hast keine rechte für disen command");
-                    return true;
-                }
-            }
-            return true;
-        }    
         if ($cmd->getName() == "nacht") {
             if ($sender instanceof Player) {
                 if ($sender->hasPermission("nacht.core")) {
