@@ -213,7 +213,7 @@
            
               break;
 
-              case "2"::
+              case "2":
               if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
