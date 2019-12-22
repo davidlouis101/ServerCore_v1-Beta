@@ -19,7 +19,7 @@
  use pocketmine\level\Position;
 
 
- class RushGames extends PluginBase {
+ class Main extends PluginBase {
 
 
     public $config;
