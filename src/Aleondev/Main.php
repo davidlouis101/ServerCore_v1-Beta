@@ -126,11 +126,11 @@
      return true;
  }
 
- if ($cmd->getName() == "gm") {
+ if ($cmd->getName() == "g") {
     if ($sender instanceof Player) {
-        if ($sender->hasPermission("gamemode.cmd")) {
+        if ($sender->hasPermission("g.core")) {
             if(!isset($args[0]) || count($args) < 1) {
-                $sender->sendMessage("§eCore: §4/gm < 0 | 1 | 2 | 3 >");
+                $sender->sendMessage("§eCore: §4/g < s | c | spec | a >");
                 return true;
             }
             switch(strtolower($args[0])) {
