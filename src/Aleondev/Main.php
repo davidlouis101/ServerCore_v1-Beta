@@ -93,16 +93,6 @@
             }
         }
     }
-    public function addPlayer(Player $player) {
-        $this->players[$player->getName()] = $player->getName();
-    }
-    public function isPlayer(Player $player) {
-        return in_array($player->getName(), $this->players);
-    }
-    public function removePlayer(Player $player) {
-        unset($this->players[$player->getName()]);
-    }
-}   
 
     if($cmd->getName() === "tpohere"){
      if($sender instanceof Player){
