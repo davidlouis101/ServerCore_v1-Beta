@@ -1,174 +1,264 @@
 <?php
 
  namespace Aleondev;
- 
- use pocketmine\event\Listener;
+
+ use pocketmine\utils\TextFormat as TF;
  use pocketmine\plugin\PluginBase;
+ use pocketmine\plugin\Plugin;
  use pocketmine\command\Command;
  use pocketmine\command\CommandSender;
+ use pocketmine\command\ConsoleCommandSender; 
  use pocketmine\Player;
+ use pocketmine\Server;
+ use pocketmine\utils\Config;
+ use jojoe77777\FormAPI;
+ use DateTime;
+ use pocketmine\level\particle\FlameParticle;
  use pocketmine\math\Vector3;
+ use onebone\economyapi\EconomyAPI;
  use pocketmine\level\Position;
 
 
- class Main extends PluginBase implements Listener {
+ class RushGames extends PluginBase {
 
-    public function onEnable()
-    {
-        $this->getLogger()->info("[core] Aktiviert by Aleondev.");
-    }
 
-    public $fts;
+    public $config;
 
-    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool
-    {
-        $fts = "[CORE]";
-        $this->fts = $fts;
+   public function onEnable() {
+       $this->getLogger->info(TF::Green . "Das core plugin wurde erfolgreich geladen!");
+       $this->getServer()->getPluginManager()->registerEvents($this, $this);
+       $this->saveResource("core.yml");
+       $this->config = new Config($this->getDataFolder() . "core.yml", Config::YAML);
+   } 
 
-        if ($cmd->getName() == "tag") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("tag.core")) {
-                    $sender->getLevel()->setTime(6000);
-                    $sender->sendMessage("§eCore§b >> §4Du hast Tag gemacht");
-                    return true;
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                    return true;
-                }
-            }
-            return true;
-        }
-        if ($cmd->getName() == "core") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("core.core")) {
-                    $sender->sendMessage("§6>>§eCore§6<<\n§4/tag\n§4/nacht\n§4gm0,1,2,3\n§4/food\n§4/heal\n§4/fly\n§4/tpall\n§6>>§eCore§6<<");
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                }
-            }
-            return true;
-        }
-        if ($cmd->getName() == "fly") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("fly.core")) {
-                    $sender->setAllowFlight(true);
-                    $sender->sendMessage("§eCore§b >> §4Du Kannst Jetzt Fliegen");
-                }
-            }
-            return true;
-        }    
-        if ($cmd->getName() == "info") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("core.info")) {
-                    $sender->sendMessage("§eCore §4Plugin §eVon §4Aleondev");
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                }
-            }
-            return true;
-        }
-        if ($cmd->getName() == "tpall") {
-            if ($sender instanceof Player) {
-              if ($sender->hasPermission("tpall.core")) {
-                  foreach ($this->getServer()->getOnlinePlayers() as $player) {
-                  $x = $sender->getX();
-                  $y = $sender->getY();
-                  $z = $sender->getZ();
-                  $level = $sender->getLevel();
-                  $name = $sender->getName();
-                  $player->teleport(new Position($x, $y, $z, $level));
+   public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool {
+       if ($cmd->getName() == "payall") {
+           if ($sender->hasPermission("payall.core")) {
+               $zahl = $args[0];
+               foreach ($this->getServer()->getOnlinePlayers() as $player) {
+                   $this->getServer()->getPluginManager()->getPlugin("EconomyAPI")->addMoney($player, $zahl);
+                   $player->sendMessage("§eCore §b$sender §4hat ein Money Drop gemacht!.");
+               }
+               $sender->sendMessgae("§eCore §b$player §4du hast nun §b$zahl §4an jeden gepayt");
+           } else {
+               $sender->sendMessage("§eCore §4Du hast keine Rechte um diesen befehl zu benutzen");
+           }
+       }
+       
+       if ($cmd->getName() == "tpall") {
+        if ($sender instanceof Player) {
+            if ($sender->hasPermission("tpall.core")) {
+             foreach ($this->getServer()->getOnlinePlayers() as $player) {
+             $x = $sender->getX();
+             $y = $sender->getY();
+             $z = $sender->getZ();
+             $level = $sender->getLevel();
+             $name = $sender->getName();
+             $player->teleport(new Position($x, $y, $z, $level));
          
-               } 
-                 $sender->sendMessage("§eCore §b>> §4Du hast alle zu dir Teleportiert!");
-                 $this->getServer()->broadcastMessage("§eCore §b >> §4Jeder würde von $name Teleportiert!");
-               } else {
-                 $sender->sendMessage("§eCore §4Keine Rechte Für §etpall.core!");
-              }
-               } else {
-                 $sender->sendMessage("§eCore Du kannst diesen Command nur InGame ausführen");
-                }
-            }
-            return true;
-        }
-        if ($cmd->getName() == "nacht") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("nacht.core")) {
-                    $sender->getLevel()->setTime(16000);
-                    $sender->sendMessage("§eCore§b >> §4Du hast Nacht gemacht");
-                    return true;
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                    return true;
-                }
-            }
-            return true;
-        }
-        if ($cmd->getName() == "gm0") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("gm0.core")) {
-                    $sender->setGamemode(0);
-                    $sender->sendMessage("§eCore§b >> §4Du bist jetzt im gm0");
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                }
-            }
-            return true;
-        }
-        if ($cmd->getName() == "gm1") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("gm1.core")) {
-                    $sender->setGamemode(1);
-                    $sender->sendMessage("§eCore§b >> §4Du bist jetzt im gm1");
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                }
-            }
-            return true;
-        }
-        if ($cmd->getName() == "gm2") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("gm2.core")) {
-                    $sender->setGamemode(2);
-                    $sender->sendMessage("§eCore§b >> §4Du bist jetzt im gm2");
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                }
-            }
-            return true;
-		}
-        if ($cmd->getName() == "gm3") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("gm3.core")) {
-                    $sender->setGamemode(3);
-                    $sender->sendMessage("§eCore§b >> §4Du bist jetzt im gm3");
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                }
-            }
-            return true;
-        }
-        if ($cmd->getName() == "food") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("food.core")) {
-                    $sender->setFood(20);
-                    $sender->sendMessage("§eCore§b >> §4Deine Hungersleiste wurde gefüllt");
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                }
-            }
-            return true;
-        }
-        if ($cmd->getName() == "heal") {
-            if ($sender instanceof Player) {
-                if ($sender->hasPermission("heal.core")) {
-                    $sender->setHealth(20);
-                    $sender->sendMessage("§eCore§b >> §4Deine Herzen würden gefüllt");
-                } else {
-                    $sender->sendMessage("Du hast keine Rechte diesen Befehl zu benutzen");
-                }
-            }
-            return true;
+             } 
+             $sender->sendMessage("§eCore §4Du hast alle zu dir Teleportiert!");
+             $this->getServer()->broadcastMessage("§7(§c!§7) §4§e$name §4hat jeden zu ihn Teleportiert!");
+            } else {
+             $sender->sendMessage("§eCore §4Für diesen Command hast du keine Rechte!");
          }
-        return true;
+        } else {
+         $sender->sendMessage("§eCore §eDu kannst diesen Command nur InGame ausführen");
+     }
+     return true;
+    }
+	   
+    if(strtolower($cmd->getName()) == "fly") {
+            if($sender instanceof Player) {
+                if($this->isPlayer($sender)) {
+		   if ($sender->hasPermission("fly.core")) {
+                    $this->removePlayer($sender);
+                    $sender->setAllowFlight(false);
+                    $sender->sendMessage("§eCore §b >> §4Fly ist §cDisable");
+				$sender->addTitle("§eCore\n§cFly Ist Disable\n§eCore §aBy Aleondev");
+                    return true;
+                }
+                else{
+                    $this->addPlayer($sender);
+                    $sender->setAllowFlight(true);
+                    $sender->sendMessage("§eCore §b >> §4Fly Ist §aEnable");
+				$sender->addTitle("§eCore\n§4Fly Ist §aEnable\n§eCore §aBy Aleondev");
+                    return true;
+                }
+            }
+            else{
+                $sender->sendMessage("§eCore §b >> §4Fly Ist §cDisable");
+				$sender->addTitle("§eCore\n§4Fly Ist §cDisable\n§eCore §aBy Aleondev");
+                return true;
+            }
         }
     }
+    public function addPlayer(Player $player) {
+        $this->players[$player->getName()] = $player->getName();
+    }
+    public function isPlayer(Player $player) {
+        return in_array($player->getName(), $this->players);
+    }
+    public function removePlayer(Player $player) {
+        unset($this->players[$player->getName()]);
+    }
+}   
+
+    if($cmd->getName() === "tpohere"){
+     if($sender instanceof Player){
+         if ($sender->hasPermission("tpohere.cmd")) {
+         if(isset($args[0])){
+             $player = $this->getServer()->getPlayer($args[0]);
+             if($player instanceof Player){
+                 $x = $sender->getX();
+                 $y = $sender->getY();
+                 $z = $sender->getZ();
+                 $level = $sender->getLevel();
+                 $tpnam = $player;
+                 $tpname = $tpna->getName();
+                 $player8 = $sender->getName();
+                 $player->teleport(new Position($x, $y, $z, $level));
+                 $sender->sendMessage("§eCore §4Du hast $tpname zu dir Teleportiert!");
+                 $player->sendMessage("§eCore §4 Du wurdest zur $player8 Teleportiert!");
+                 return true;
+             } else {
+                 $sender->sendMessage("§eCore §4Dieser Spieler ist nicht Online!");
+             }
+         } else {
+             $sender->sendMessage("§eCore §c Du musst §e/tpohere {playername}§c!");
+         }
+         } else {
+             $sender->sendMessage("§eCore §eFür diesen Coommand hast du keine Rechte!");
+         }
+     } else {
+         $sender->sendMessage("§eCore §eDu kannst diesen Command nur InGame ausführen");
+     }
+     return true;
+ }
+
+ if ($cmd->getName() == "gm") {
+    if ($sender instanceof Player) {
+        if ($sender->hasPermission("gamemode.cmd")) {
+            if(!isset($args[0]) || count($args) < 1) {
+                $sender->sendMessage("§eCore: §4/gm < 0 | 1 | 2 | 3 >");
+                return true;
+            }
+            switch(strtolower($args[0])) {
+            case "0":
+            case "s":
+            if(isset($args[1])){
+                $target = $this->getServer()->getPlayer($args[1]);
+                if($target instanceof Player){
+                    $targetgm = $target;
+                    $tgname = $targetgm->getName();
+                    $player = $sender->getName();
+                    $target->setGamemode(0);
+                    $sender->sendMessage("§eCore Du hast §e$tgname  §4Spielmodus auf §eGamemode 0 §4gesetzt! ");
+                    $target->sendMessage("§eCore §e$player §4hat dein Spielmodus auf §eGamemode 0 §4gesetzt!");
+                    $this->getLogger()->warning("§4 $player hat $tgname sein Spielmodus auf §eGamemode 0 §4gesetzt!");
+                    return true;
+                } else {
+                    $sender->sendMessage("§eCore §4Dieser Spieler ist nicht Online!");
+                }
+            } else {
+                $player = $sender->getName();
+                $sender->setGamemode(0);
+                $sender->sendMessage("§eCore §4Du hast dein Spielmodus auf §eGamemode 0 §4gesetzt!");
+                $this->getLogger()->warning("§4 $player hat sein Spielmodus auf §eGamemode 0 §4gesetzt!");
+                return true;
+            }
+              break;
+
+              
+
+            case "1":
+            case "c":
+            if(isset($args[1])){
+                $target = $this->getServer()->getPlayer($args[1]);
+                if($target instanceof Player){
+                    $targetgm = $target;
+                    $player = $sender->getName();
+                    $tname = $targetgm->getName();
+                    $target->setGamemode(1);
+                    $sender->sendMessage("§eCore §4Du hast §e$tname  §4Spielmodus auf §eGamemode 1 §4gesetzt! ");
+                    $target->sendMessage("§eCore §e$player §7hat dein Spielmodus auf §eGamemode 1 §4gesetzt!");
+                    $this->getLogger()->warning("§4 $player hat $tname sein Spielmodus auf §eGamemode 1 §4gesetzt!");
+                    return true;
+                } else {
+                    $sender->sendMessage("§eCore §4Dieser Spieler ist nicht Online!");
+                }
+            } else {
+                $player = $sender->getName();
+                $sender->setGamemode(1);
+                $sender->sendMessage("§eCore §4Du hast dein Spielmodus auf §eGamemode 1 §4gesetzt!");
+                $this->getLogger()->warning("§4 $player hat sein Spielmodus auf §eGamemode 1 §4gesetzt!");
+                return true;
+            }
+           
+              break;
+
+              case "3":
+              if(isset($args[1])){
+                $target = $this->getServer()->getPlayer($args[1]);
+                if($target instanceof Player){
+                    $targetgm = $target;
+                    $player = $sender->getName();
+                    $tname = $targetgm->getName();
+                    $target->setGamemode(3);
+                    $sender->sendMessage("§eCore §4Du hast §e$tname  §4Spielmodus auf §eGamemode 3 §4gesetzt! ");
+                    $target->sendMessage("§e$player §4hat dein Spielmodus auf §eGamemode 3 §4gesetzt!");
+                    $this->getLogger()->warning("§4 $player hat $tname sein Spielmodus auf §eGamemode 3 §4gesetzt!");
+                    return true;
+                } else {
+                    $sender->sendMessage("§eCore §4Dieser Spieler ist nicht Online!");
+                }
+            } else {
+                $player = $sender->getName();
+                $sender->setGamemode(3);
+                $sender->sendMessage("§eCore §4Du hast dein Spielmodus auf §eGamemode 3 §4gesetzt!");
+                $this->getLogger()->warning("§4 $player hat sein Spielmodus auf §eGamemode 3 §4gesetzt!");
+                return true;
+            }
+              return true;
+           
+              break;
+
+              case "2"::
+              if(isset($args[1])){
+                $target = $this->getServer()->getPlayer($args[1]);
+                if($target instanceof Player){
+                    $targetgm = $target;
+                    $tname = $targetgm->getName();
+                    $player = $sender->getName();
+                    $target->setGamemode(2);
+                    $sender->sendMessage("§eCore §4 Du hast §e$tname  §4Spielmodus auf §eGamemode 2 §4gesetzt! ");
+                    $target->sendMessage("§eCore §e$player §4hat dein Spielmodus auf §eGamemode 2 §4gesetzt!");
+                    $this->getLogger()->warning("§4 $player hat $tname sein Spielmodus auf §eGamemode 2 §4gesetzt!");
+                    return true;
+                } else {
+                    $sender->sendMessage("§eCore §4Dieser Spieler ist nicht Online!");
+                }
+            } else {
+                $player = $sender->getName();
+                $sender->setGamemode(2);
+                $sender->sendMessage("§eCore §4 Du hast dein Spielmodus auf §eGamemode 2 §4gesetzt!");
+                $this->getLogger()->warning("§4 $player hat sein Spielmodus auf §eGamemode 2 §4gesetzt!");
+                return true;
+            }
+              return true;
+           
+              break;
+
+            }
+        } else {
+            $sender->sendMessage("§eCore §eFür diesen Command hast du keine Rechte!");
+        }
+    } else {
+            $sender->sendMessage("§eCore §4Du kannst diesen Command nur InGame ausführen");
+    }
+ }
+
+ 
+   }
+   return true;
+ }
