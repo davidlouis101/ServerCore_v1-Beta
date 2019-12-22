@@ -246,8 +246,8 @@
             $sender->sendMessage("§eCore §4Du kannst diesen Command nur InGame ausführen");
     }
  }
-   return true;
+
  
    }
-   return true; 
+	 
  }
