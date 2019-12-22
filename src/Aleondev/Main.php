@@ -7,6 +7,8 @@
  use pocketmine\command\Command;
  use pocketmine\command\CommandSender;
  use pocketmine\Player;
+ use pocketmine\math\Vector3;
+ use pocketmine\scheduler\Task;
 
 
  class Main extends PluginBase implements Listener {
@@ -76,6 +78,21 @@
                     $p->setAllowFlight(true);
                     $this->getScheduler()->scheduleRepeatingTask(new Flyall($this), 30);           
                     $this->getServer()->broadcastMessage("§eCore§b >>§4 Fly Wurde Für Alle §aAktiviert!");
+		      $this->plugin->fsek--;
+            if($this->plugin->fsek === 30) {
+                foreach ($this->plugin->getServer()->getOnlinePlayers() as $p) {
+                         $p->sendMessage("§eCore§c §b»§l§aFlyall wird in §c30 sekunden §adeaktiviert.");
+                         }
+            }elseif($this->plugin->fsek === 10) {
+                foreach ($this->plugin->getServer()->getOnlinePlayers() as $p) {
+                         $p->sendMessage("§eCore§c §b»§l§aFlyall wird in §c10 sekunden §adeaktiviert.");
+                         }
+            }elseif($this->plugin->fsek === 0) {
+                foreach ($this->plugin->getServer()->getOnlinePlayers() as $p) {
+                         $p->sendMessage("§eCore§c §8»§l§aFlyall wurde nun deaktiviert. \n\n§r§aDu kannst nun nicht mehr Fliegen.");
+                    if($p->getGamemode() == 0) {
+                        $p->setFlying(false);
+                        $p->setAllowFlight(flase);
                 } else {
                     $sender->sendMessage("Du hast keine rechte für disen command");
                     return true;
