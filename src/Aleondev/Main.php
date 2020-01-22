@@ -126,11 +126,11 @@
      return true;
  }
 
- if ($cmd->getName() == "g") {
+ if ($cmd->getName() == "gm") {
     if ($sender instanceof Player) {
         if ($sender->hasPermission("g.core")) {
             if(!isset($args[0]) || count($args) < 1) {
-                $sender->sendMessage("§eCore: §4/g < s | c | spec | a >");
+                $sender->sendMessage("§eCore: §4/gm < gm0 | gm1 | gm3 | gm2 >");
                 return true;
             }
             switch(strtolower($args[0])) {
@@ -159,7 +159,7 @@
               break;
 
               
-            case "c":
+            case "gm1":
             if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
@@ -184,7 +184,7 @@
            
               break;
 
-              case "spec":
+              case "gm3":
               if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
@@ -209,7 +209,7 @@
            
               break;
 
-              case "a":
+              case "gm2":
               if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
