@@ -9,9 +9,6 @@ author: Aleondev
 description: "Core by Aleondev"
 
 commands:
-  moneydrop:
-    description: §e[Core]§4payall
-    permission: payall.core
   tpall:
     description: §e[Core]§4tpall
     permission: tpall.core
@@ -21,6 +18,3 @@ commands:
   gm:
     description: §e[Core]§4G
     permission: gm.core
-  fly:
-    description: §e[Core]§4fly
-    permission: fly.core
