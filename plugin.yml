@@ -9,7 +9,7 @@ author: Aleondev
 description: "Core by Aleondev"
 
 commands:
-  payall:
+  moneydrop:
     description: §e[Core]§4payall
     permission: payall.core
   tpall:
@@ -18,7 +18,7 @@ commands:
   tpohere:
     description: §e[Core]§4Tpohere
     permission: tpohere.core
-  g:
+  gm:
     description: §e[Core]§4G
     permission: gm.core
   fly:
