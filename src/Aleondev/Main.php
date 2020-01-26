@@ -32,19 +32,6 @@
    } 
 
    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool {
-       if ($cmd->getName() == "payall") {
-           if ($sender->hasPermission("payall.core")) {
-               $zahl = $args[0];
-               foreach ($this->getServer()->getOnlinePlayers() as $player) {
-                   $this->getServer()->getPluginManager()->getPlugin("EconomyAPI")->addMoney($player, $zahl);
-                   $player->sendMessage("§eCore §b$sender §4hat ein Money Drop gemacht!.");
-               }
-               $sender->sendMessgae("§eCore §b$player §4du hast nun §b$zahl §4an jeden gepayt");
-           } else {
-               $sender->sendMessage("§eCore §4Du hast keine Rechte um diesen befehl zu benutzen");
-           }
-       }
-       
        if ($cmd->getName() == "tpall") {
         if ($sender instanceof Player) {
             if ($sender->hasPermission("tpall.core")) {
@@ -67,33 +54,6 @@
      }
      return true;
     }
-	   
-    if(strtolower($cmd->getName()) == "fly") {
-            if($sender instanceof Player) {
-                if($this->isPlayer($sender)) {
-		   if ($sender->hasPermission("fly.core")) {
-                    $this->removePlayer($sender);
-                    $sender->setAllowFlight(false);
-                    $sender->sendMessage("§eCore §b >> §4Fly ist §cDisable");
-				$sender->addTitle("§eCore\n§cFly Ist Disable\n§eCore §aBy Aleondev");
-                    return true;
-                }
-                else{
-                    $this->addPlayer($sender);
-                    $sender->setAllowFlight(true);
-                    $sender->sendMessage("§eCore §b >> §4Fly Ist §aEnable");
-				$sender->addTitle("§eCore\n§4Fly Ist §aEnable\n§eCore §aBy Aleondev");
-                    return true;
-                }
-            }
-            else{
-                $sender->sendMessage("§eCore §b >> §4Fly Ist §cDisable");
-				$sender->addTitle("§eCore\n§4Fly Ist §cDisable\n§eCore §aBy Aleondev");
-                return true;
-            }
-        }
-    }
-
     if($cmd->getName() === "tpohere"){
      if($sender instanceof Player){
          if ($sender->hasPermission("tpohere.cmd")) {
@@ -134,7 +94,7 @@
                 return true;
             }
             switch(strtolower($args[0])) {
-            case "s":
+            case "0":
             if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
@@ -159,7 +119,7 @@
               break;
 
               
-            case "gm1":
+            case "1":
             if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
@@ -184,7 +144,7 @@
            
               break;
 
-              case "gm3":
+              case "3":
               if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
@@ -209,7 +169,7 @@
            
               break;
 
-              case "gm2":
+              case "2":
               if(isset($args[1])){
                 $target = $this->getServer()->getPlayer($args[1]);
                 if($target instanceof Player){
